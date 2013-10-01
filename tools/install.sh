@@ -9,7 +9,7 @@ rm -rf $target
 echo "Checking if installed .."
 # check if installed
 if [ -d "$target" ]; then
-  echo "mysetup seems to be is installed. cancelling."  
+  echo "mysetup seems to be installed. cancelling."  
   echo "for deinstall remove directory: $target"  
   exit 1
 fi

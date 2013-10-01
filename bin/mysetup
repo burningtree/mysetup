@@ -8,6 +8,8 @@ usage() {
   echo "Available commands:"
   echo "   tap         Tap config repository"
   echo "   untap       Remove config repo"
+  echo "   update      Update system"
+  echo "   refresh     Update config repo"
   echo "   bootstrap   Run bootstrap"
   echo "   version     Show version"
 }
@@ -16,7 +18,7 @@ check_git() {
   # check if git installed
   git --version >& /dev/null
   if [ $? != 0 ]; then
-    echo "Git not installed."
+    echo "error: git not installed"
     exit 10
   fi
 }
@@ -27,17 +29,34 @@ check_tap() {
   fi
 }
 
-cmd_version() {
-  echo $VERSION
-  exit 0
-}
-
-cmd_untap() {
+check_tap_strict() {
   check_tap
   if [ -z $tapped ]; then
     echo "error: not tapped"
     exit 1
   fi
+}
+
+cmd_refresh() {
+  check_tap_strict
+  cd $target/repo
+  git fetch && git pull
+}
+
+cmd_update() {
+  ansible-playbook -i $target/hosts $target/repo/setup.yml -e target=localhost
+}
+
+cmd_run() {
+  ansible-playbook -i $target/hosts $target/repo/setup.yml -e target=localhost
+}
+
+cmd_version() {
+  echo $VERSION
+}
+
+cmd_untap() {
+  check_tap_strict
   rm -rf $target/repo
 }
 
@@ -48,7 +67,12 @@ cmd_bootstrap() {
     exit 1
   fi
 
-  sh $target/repo/bootstrap.sh
+  boostrap_path="$target/repo/bootstrap.sh"
+  if [ ! -f $boostrap_path ]; then
+    echo "error: $boostrap_path not exists"
+    exit 1
+  fi
+  sh $boostrap_path
 }
 
 cmd_tap() {
@@ -91,10 +115,16 @@ fi
 cmd_arg=$2
 
 case $1 in
+  run)
+    cmd_run;;
   tap)
     cmd_tap;;
   untap)
     cmd_untap;;
+  update)
+    cmd_update;;
+  refresh)
+    cmd_refresh;;
   version)
     cmd_version;;
   bootstrap)
