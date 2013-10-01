@@ -1,1 +1,36 @@
 #!/bin/sh
+
+VERSION="0.0.1"
+
+usage() {
+  echo "usage: $0 <command> [<args>]\n"
+  echo "Available commands:"
+  echo "   version     Show version"
+}
+
+cmd_version() {
+  echo $VERSION
+}
+
+while getopts v opt; do
+  case $opt in
+    v) verbose=true
+       echo "Running in verbose mode."
+  esac;
+done
+
+if [ ! $1 ]; then
+  echo "missing command"
+  usage
+  exit 1
+fi
+
+case $1 in
+  version)
+    cmd_version;;
+  *)
+    echo "bad command: $1"
+    usage
+    exit 1;;
+esac;
+
