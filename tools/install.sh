@@ -22,7 +22,7 @@ fi
 echo "Downloading package .."
 curl -sL $pkg_location -o $tmp_name
 if [ $? != 0 ]; then
-  echo "Error: downloading package failed: $pkg_location"
+  echo "error: downloading package failed: $pkg_location"
   exit 10
 fi
 
@@ -43,5 +43,4 @@ fi
 
 version=`$target/bin/mysetup version`
 echo "Instalation complete: $version"
-echo "Done."
 
