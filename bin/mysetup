@@ -9,6 +9,7 @@ usage() {
   echo "   tap         Tap config repository"
   echo "   untap       Remove config repo"
   echo "   update      Update system"
+  echo "   run         Run playbook"
   echo "   refresh     Update config repo"
   echo "   bootstrap   Run bootstrap"
   echo "   version     Show version"
