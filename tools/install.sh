@@ -44,6 +44,6 @@ if [ ! -f "$target/bin/mysetup" ]; then
   exit 10;
 fi
 
-version=`$target/bin/mysetup version`
+version=`$target/bin/mysetup --version`
 echo "Instalation complete: $version"
 

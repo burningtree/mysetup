@@ -12,7 +12,6 @@ usage() {
   echo "   run         Run playbook"
   echo "   refresh     Update config repo"
   echo "   bootstrap   Run bootstrap"
-  echo "   version     Show version"
 }
 
 check_git() {
@@ -53,10 +52,6 @@ cmd_update() {
 
 cmd_run() {
   ansible-playbook -i $target/hosts $target/repo/setup.yml -e target=localhost
-}
-
-cmd_version() {
-  echo $VERSION
 }
 
 cmd_untap() {
@@ -101,6 +96,11 @@ cmd_tap() {
   fi
 }
 
+if [ $1 == '--version' ]; then
+  echo $VERSION
+  exit 0
+fi
+
 while getopts v opt; do
   case $opt in
     v) verbose=true
@@ -129,8 +129,6 @@ case $1 in
     cmd_update;;
   refresh)
     cmd_refresh;;
-  version)
-    cmd_version;;
   bootstrap)
     cmd_bootstrap;;
   *)
