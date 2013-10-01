@@ -66,7 +66,7 @@ cmd_tap() {
   echo "Tapping repo: $cmd_arg"
 
   # cloning repo
-  git clone $cmd_arg $target/repo
+  git clone -q $cmd_arg $target/repo
 
   if [ $? != 0 ]; then
     echo "error: failed to clone repo"
