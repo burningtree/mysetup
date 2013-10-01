@@ -45,7 +45,10 @@ cmd_refresh() {
 }
 
 cmd_update() {
-  ansible-playbook -i $target/hosts $target/repo/setup.yml -e target=localhost
+  if [ $cmd_arg ]; then
+    ansible_tag="--tag $cmd_arg"
+  fi
+  ansible-playbook -i $target/hosts $target/repo/setup.yml $ansible_tag -e "target=localhost user=$USER" --ask-sudo-pass
 }
 
 cmd_run() {
