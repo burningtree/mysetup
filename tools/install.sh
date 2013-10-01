@@ -35,6 +35,9 @@ tar -C $target -xf $tmp_name --strip-components=1
 # clean
 rm $tmp_name
 
+# make executable
+chmod +x "$target/bin/mysetup"
+
 # check installation
 if [ ! -f "$target/bin/mysetup" ]; then
   echo "error: unpacking failed"
